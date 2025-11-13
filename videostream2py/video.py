@@ -12,7 +12,7 @@ _ITEMGETTER_0 = operator.itemgetter(0)
 class VideoCapture(SourceReader):
     """Video Capture using OpenCV"""
 
-    def __init__(self, video_input: Union[str, int] = 0):
+    def __init__(self, video_input: str | int = 0):
         """
         https://docs.opencv.org/4.2.0/d8/dfe/classcv_1_1VideoCapture.html#ac4107fb146a762454a8a87715d9b7c96
         https://docs.opencv.org/4.2.0/d8/dfe/classcv_1_1VideoCapture.html#aabce0d83aa0da9af802455e8cf5fd181
@@ -32,7 +32,7 @@ class VideoCapture(SourceReader):
         self.video_input = video_input
 
     @classmethod
-    def video_input_info(cls, video_input: Union[str, int]) -> dict:
+    def video_input_info(cls, video_input: str | int) -> dict:
         """
         https://docs.opencv.org/4.2.0/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
 
@@ -53,11 +53,11 @@ class VideoCapture(SourceReader):
         self._bt = self.get_timestamp()
         self.video_capture = cv2.VideoCapture(self.video_input)
         if self.is_opened() is False:
-            raise IOError(
+            raise OSError(
                 f'{self.__class__.__name__} error opening video stream or file: {self.video_input}'
             )
 
-    def read(self) -> Optional[Any]:
+    def read(self) -> Any | None:
         ret, frame = self.video_capture.read()
         return self.get_timestamp(), ret, frame
 
