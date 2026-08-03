@@ -1,3 +1,11 @@
+"""Video capture as a ``stream2py`` source.
+
+:class:`VideoCapture` wraps OpenCV's ``cv2.VideoCapture`` in the ``stream2py``
+:class:`~stream2py.SourceReader` protocol, so a video file or a camera device
+can be consumed like any other ``stream2py`` source. Each read yields a
+``(timestamp, ret, frame)`` triple, keyed on the timestamp.
+"""
+
 from typing import Any, Optional, Union
 
 import cv2
