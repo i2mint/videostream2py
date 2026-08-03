@@ -34,6 +34,7 @@ classifiers = [
 ]
 dependencies = [
     "stream2py",
+    "opencv-python",
 ]
 
 [project.urls]
@@ -97,6 +98,16 @@ doctest_optionflags = [
     "NORMALIZE_WHITESPACE",
     "ELLIPSIS",
 ]
+
+[tool.wads.ops.libgl]
+# opencv-python's binary wheels link against libGL. The GitHub Ubuntu runner
+# images do not always ship it, and then `import cv2` fails at pytest
+# collection time. The macOS/Windows wheels need nothing extra, hence no
+# entries for those platforms.
+description = "OpenGL runtime library (libGL.so.1), needed by opencv-python on Linux"
+url = "https://pypi.org/project/opencv-python/"
+check.linux = "ldconfig -p | grep -q libGL.so.1"
+install.linux = ["sudo apt-get update", "sudo apt-get install -y libgl1"]
 
 [tool.wads.ci]
 project_name = "videostream2py"
