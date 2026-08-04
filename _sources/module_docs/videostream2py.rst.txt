@@ -1,0 +1,4 @@
+videostream2py
+==============
+.. automodule:: videostream2py
+   :members:
