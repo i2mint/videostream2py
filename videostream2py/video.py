@@ -1,3 +1,11 @@
+"""Video capture as a ``stream2py`` source.
+
+:class:`VideoCapture` wraps OpenCV's ``cv2.VideoCapture`` in the ``stream2py``
+:class:`~stream2py.SourceReader` protocol, so a video file or a camera device
+can be consumed like any other ``stream2py`` source. Each read yields a
+``(timestamp, ret, frame)`` triple, keyed on the timestamp.
+"""
+
 from typing import Any, Optional, Union
 
 import cv2
@@ -25,7 +33,7 @@ class VideoCapture(SourceReader):
             self.is_file = False
         else:
             raise TypeError(
-                f'{self.__class__.__name__} video_input must be type str or int: {type(video_input)}'
+                f"{self.__class__.__name__} video_input must be type str or int: {type(video_input)}"
             )
         self.video_capture = None
         self._bt = -1
@@ -45,7 +53,7 @@ class VideoCapture(SourceReader):
         _info = {
             cap_prop: vid_cap.get(getattr(cv2, cap_prop))
             for cap_prop in dir(cv2)
-            if cap_prop.startswith('CAP_PROP_')
+            if cap_prop.startswith("CAP_PROP_")
         }
         return _info
 
@@ -54,7 +62,7 @@ class VideoCapture(SourceReader):
         self.video_capture = cv2.VideoCapture(self.video_input)
         if self.is_opened() is False:
             raise OSError(
-                f'{self.__class__.__name__} error opening video stream or file: {self.video_input}'
+                f"{self.__class__.__name__} error opening video stream or file: {self.video_input}"
             )
 
     def read(self) -> Any | None:
@@ -66,7 +74,7 @@ class VideoCapture(SourceReader):
 
     @property
     def info(self) -> dict:
-        _info = {'video_input': self.video_input, 'bt': self._bt}
+        _info = {"video_input": self.video_input, "bt": self._bt}
         if self.is_opened():
             _info.update(
                 frame_width=int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH)),
@@ -86,18 +94,18 @@ class VideoCapture(SourceReader):
         return self.video_capture is not None and self.video_capture.isOpened()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     video_input = 0
     from pprint import pprint
 
     pprint(VideoCapture.video_input_info(video_input))
 
-    print('starting recording')
+    print("starting recording")
     with VideoCapture(video_input=video_input) as cap:
         print(cap.info)
         print("Press 'q' to quit")
         while cap.is_opened():
             ts, ret, frame = cap.read()
-            cv2.imshow('frame', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.imshow("frame", frame)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
