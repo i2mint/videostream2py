@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "videostream2py"
-version = "0.0.2"
+version = "0.0.3"
 description = "stream2py interface to video"
 readme = "README.md"
 requires-python = ">=3.10"
