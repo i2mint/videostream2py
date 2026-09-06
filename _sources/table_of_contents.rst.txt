@@ -3,4 +3,6 @@
    :caption: Contents:
 
    module_docs/videostream2py
+   module_docs/videostream2py/tests
+   module_docs/videostream2py/tests/test_exports
    module_docs/videostream2py/video

@@ -1,0 +1,4 @@
+videostream2py.tests
+====================
+.. automodule:: videostream2py.tests
+   :members:

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>videostream2py &mdash; videostream2py 0.0.2 documentation</title>
+  <title>videostream2py &mdash; videostream2py 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=e3a6060d"></script>
+      <script src="../_static/documentation_options.js?v=47de8214"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -24,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="videostream2py.video" href="videostream2py/video.html" />
+    <link rel="next" title="videostream2py.tests" href="videostream2py/tests.html" />
     <link rel="prev" title="Welcome to videostream2py’s documentation!" href="../index.html" /> 
 </head>
 
@@ -49,7 +49,19 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">videostream2py</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">videostream2py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#videostream2py.VideoCapture"><code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#videostream2py.VideoCapture.close"><code class="docutils literal notranslate"><span class="pre">VideoCapture.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#videostream2py.VideoCapture.info"><code class="docutils literal notranslate"><span class="pre">VideoCapture.info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#videostream2py.VideoCapture.key"><code class="docutils literal notranslate"><span class="pre">VideoCapture.key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#videostream2py.VideoCapture.open"><code class="docutils literal notranslate"><span class="pre">VideoCapture.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#videostream2py.VideoCapture.video_input_info"><code class="docutils literal notranslate"><span class="pre">VideoCapture.video_input_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="videostream2py/tests.html">videostream2py.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="videostream2py/tests/test_exports.html">videostream2py.tests.test_exports</a></li>
 <li class="toctree-l1"><a class="reference internal" href="videostream2py/video.html">videostream2py.video</a></li>
 </ul>
 
@@ -81,13 +93,83 @@
 <span id="videostream2py"></span><h1>videostream2py<a class="headerlink" href="#module-videostream2py" title="Link to this heading"></a></h1>
 <p>stream2py interface to video.</p>
 <p>Read frames from a video file or a camera device as a <code class="docutils literal notranslate"><span class="pre">stream2py</span></code> source.</p>
-<p>The package’s entry point is <a class="reference internal" href="videostream2py/video.html#videostream2py.video.VideoCapture" title="videostream2py.video.VideoCapture"><code class="xref py py-class docutils literal notranslate"><span class="pre">videostream2py.video.VideoCapture</span></code></a>, a
+<p>The package’s entry point is <a class="reference internal" href="videostream2py/video.html#videostream2py.video.VideoCapture" title="videostream2py.video.VideoCapture"><code class="xref py py-class docutils literal notranslate"><span class="pre">VideoCapture</span></code></a>, a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">stream2py.SourceReader</span></code> backed by OpenCV’s <code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">videostream2py.video</span><span class="w"> </span><span class="kn">import</span> <span class="n">VideoCapture</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">videostream2py</span><span class="w"> </span><span class="kn">import</span> <span class="n">VideoCapture</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VideoCapture</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">'VideoCapture'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_input</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">as</span> <span class="n">cap</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="n">timestamp</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>The re-export is lazy (PEP 562): a plain <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">videostream2py</span></code> never imports
+OpenCV. Anything that actually materialises an exported name does – not only
+<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">videostream2py</span> <span class="pre">import</span> <span class="pre">VideoCapture</span></code> but also <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">hasattr</span></code>,
+<code class="xref py py-func docutils literal notranslate"><span class="pre">inspect.getmembers()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">help()</span></code>. So on a host where <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">cv2</span></code>
+itself fails – Linux without <code class="docutils literal notranslate"><span class="pre">libGL.so.1</span></code> – importing this package still
+works, while introspecting it raises that <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">videostream2py.</span></span><span class="sig-name descname"><span class="pre">VideoCapture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">video_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/videostream2py/video.html#VideoCapture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#videostream2py.VideoCapture" title="Link to this definition"></a></dt>
+<dd><p>Video Capture using OpenCV</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/videostream2py/video.html#VideoCapture.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#videostream2py.VideoCapture.close" title="Link to this definition"></a></dt>
+<dd><p>Close and clean up source reader.
+Will be called when StreamBuffer stops or if an exception is raised during read and append
+loop.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture.info">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">info</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></span><a class="headerlink" href="#videostream2py.VideoCapture.info" title="Link to this definition"></a></dt>
+<dd><p>A dict with important source info. Default can be init_kwargs and open timestamp.</p>
+<p>This info will be available in BufferReader after SourceReader has opened but any changes
+made between open and close are not guaranteed to be visible. Any continuous status updates
+should be included with read data instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture.key">
+<span class="sig-name descname"><span class="pre">key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ComparableType</span></span></span><a class="reference internal" href="../_modules/videostream2py/video.html#VideoCapture.key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#videostream2py.VideoCapture.key" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – (timestamp, ret, frame)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/videostream2py/video.html#VideoCapture.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#videostream2py.VideoCapture.open" title="Link to this definition"></a></dt>
+<dd><p>Set up source to be read and set some source info affected by open time like the time of
+open. Will be called in StreamBuffer immediately before first read.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="videostream2py.VideoCapture.video_input_info">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">video_input_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">video_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/videostream2py/video.html#VideoCapture.video_input_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#videostream2py.VideoCapture.video_input_info" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://docs.opencv.org/4.2.0/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d">https://docs.opencv.org/4.2.0/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>video_input</strong> – filename or device id, see cv2.VideoCapture documentation for more info</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -95,7 +177,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to videostream2py’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="videostream2py/video.html" class="btn btn-neutral float-right" title="videostream2py.video" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="videostream2py/tests.html" class="btn btn-neutral float-right" title="videostream2py.tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
